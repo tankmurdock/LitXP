@@ -1,0 +1,12 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="512" height="512" viewBox="0 0 512 512">
+  
+  <g transform="translate(0,0)">
+    <rect width="512" height="512" rx="77" fill="#7C3AED"/>
+    <g transform="scale(16)">
+      <path d="M8 24V8l8 4v12l-8-4z" fill="#fff" opacity="0.9"/>
+      <path d="M16 12l8-4v16l-8 4V12z" fill="#fff" opacity="0.7"/>
+      <circle cx="22" cy="10" r="3" fill="#FCD34D"/>
+      <text x="21" y="12" font-size="5" font-weight="bold" fill="#7C3AED" text-anchor="middle" font-family="system-ui">XP</text>
+    </g>
+  </g>
+</svg>

@@ -18,6 +18,9 @@ A gamified reading platform for high school students that combines a clean, resp
 - **AI** (planned): OpenAI API for definitions, explanations, quiz generation
 - **Backend** (planned): Supabase (auth + PostgreSQL + edge functions)
 - **Content Source**: Project Gutenberg / Standard Ebooks (public domain)
+- **Sound**: Web Audio API synthesizer (zero external audio files, game-style chimes)
+- **Particles**: tsparticles for confetti, sparkle, and fire effects
+- **PWA**: vite-plugin-pwa with service worker, offline caching, installable on mobile
 - **Hosting** (planned): Vercel + Supabase
 
 ## Project Structure
@@ -55,6 +58,25 @@ LitXP/
     index.css                -- Tailwind + theme variables (light/dark/sepia)
 ```
 
+Additional files added in game feel update:
+```
+  public/
+    manifest.json            -- PWA manifest (installable app metadata)
+    icons/                   -- PWA icons (192px, 512px, maskable variants)
+    sounds/                  -- Reserved for future audio sprite files
+  src/
+    components/
+      effects/
+        Confetti.tsx          -- tsparticles confetti burst (used on level-up)
+        FloatingXP.tsx        -- Floating "+XP" numbers that animate from action points
+    hooks/
+      useGameSounds.ts        -- Hook exposing all game sound triggers
+    lib/
+      sounds.ts               -- Web Audio API synthesizer (9 game sounds, no files needed)
+  scripts/
+    generate-icons.mjs        -- Generates PWA icon SVGs from base logo
+```
+
 ## Feature Status
 
 ### Implemented (MVP Prototype)
@@ -64,12 +86,19 @@ LitXP/
 - [x] Double-click word lookup with popup definitions
 - [x] Text selection toolbar (Explain, Simplify, Why It Matters, Add Note)
 - [x] XP system with 50 levels, tier progression (bronze/silver/gold/platinum/diamond)
-- [x] Level-up overlay animation
+- [x] Level-up overlay animation with confetti particles and radiating rings
 - [x] Daily streak tracking
 - [x] Library page with search and difficulty filter
 - [x] Dashboard with stats and vocabulary list
-- [x] Landing page with feature highlights
+- [x] Landing page with feature highlights and floating logo animation
 - [x] 3 sample books loaded (Romeo & Juliet, Great Gatsby, Frankenstein)
+- [x] PWA support (installable, offline-capable, service worker)
+- [x] Game sound effects via Web Audio synthesizer (XP ding, level-up fanfare, page turn, etc.)
+- [x] Sound toggle in nav bar (persists to localStorage)
+- [x] Floating +XP numbers that animate from action points
+- [x] Spring-based button animations (hover scale, tap shrink, glow effects)
+- [x] Confetti particle burst on level-up
+- [x] Page turn sound on chapter navigation
 
 ### Planned (Phase 2)
 - [ ] AI-powered word definitions via OpenAI API
