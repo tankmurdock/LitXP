@@ -1,0 +1,32 @@
+---
+description: LitXP project context and conventions
+globs:
+alwaysApply: true
+---
+
+# LitXP Project Context
+
+**ALWAYS read `LitXP.md` at the project root before writing any code.** This file contains:
+
+- Complete project overview, motivation, and target audience
+- Full tech stack (React 19, TypeScript, Vite, Tailwind, Framer Motion)
+- Project structure with every file and its purpose
+- Feature status: what's implemented, what's stubbed, what's planned
+- XP system rules (action values, level curve, tiers, titles)
+- Current implementation notes (what works, what's placeholder)
+- Planned database schema for Supabase migration
+- Content strategy (public domain books for high school reading lists)
+- Phased roadmap (Phase 1-4)
+
+## Key Conventions
+
+- **State management**: React hooks + localStorage (no backend yet). Hooks are in `src/hooks/`.
+- **Styling**: Tailwind CSS with semantic CSS custom property tokens defined in `src/index.css`. Three themes: light, dark, sepia.
+- **Components**: shadcn/ui patterns (cn utility, CVA). Game components in `src/components/game/`, reader in `src/components/reader/`.
+- **XP curve**: `100 * 1.15^(level-1)` per level. See `src/lib/xp.ts`.
+- **Book content**: Currently hardcoded HTML in `src/lib/sample-books.ts`. Will move to database.
+- **Path aliases**: `@/*` maps to `src/*` (configured in tsconfig.json and vite.config.ts).
+
+## After Major Changes
+
+Update `LitXP.md` after adding major features or completing milestones.
