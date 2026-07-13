@@ -2,13 +2,14 @@ import { useState } from "react";
 import { Search, Filter } from "lucide-react";
 import { SAMPLE_BOOKS } from "@/lib/sample-books";
 import { BookCard } from "@/components/library/BookCard";
-import type { Book } from "@/types";
+import type { Book, UserProgress } from "@/types";
 
 interface LibraryProps {
   onSelectBook: (book: Book) => void;
+  getProgress: (bookId: string) => UserProgress | undefined;
 }
 
-export function Library({ onSelectBook }: LibraryProps) {
+export function Library({ onSelectBook, getProgress }: LibraryProps) {
   const [search, setSearch] = useState("");
   const [difficultyFilter, setDifficultyFilter] = useState<string>("all");
 
@@ -65,6 +66,10 @@ export function Library({ onSelectBook }: LibraryProps) {
           <BookCard
             key={book.id}
             book={book}
+            progress={(() => {
+              const p = getProgress(book.id);
+              return p ? { chaptersCompleted: p.chaptersCompleted.length, status: p.status } : undefined;
+            })()}
             onClick={() => onSelectBook(book)}
             index={i}
           />

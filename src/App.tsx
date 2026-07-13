@@ -17,7 +17,9 @@ import { FloatingXPDisplay, useFloatingXP } from "@/components/effects/FloatingX
 import { Library } from "@/pages/Library";
 import { Dashboard } from "@/pages/Dashboard";
 import { BookReader } from "@/components/reader/BookReader";
+import { useReadingProgress } from "@/hooks/useReadingProgress";
 import { isSoundEnabled, setSoundEnabled } from "@/lib/sounds";
+import { SAMPLE_BOOKS } from "@/lib/sample-books";
 import type { Book } from "@/types";
 
 function Landing() {
@@ -121,6 +123,7 @@ export function App() {
   const { profile, awardXP, recentXPEvent, leveledUp } = usePlayerProfile();
   const sounds = useGameSounds();
   const { items: floatingXPItems, spawn: spawnXP } = useFloatingXP();
+  const readingProgress = useReadingProgress();
   const [currentBook, setCurrentBook] = useState<Book | null>(null);
   const [currentChapter, setCurrentChapter] = useState(0);
   const [soundOn, setSoundOn] = useState(isSoundEnabled);
@@ -174,8 +177,16 @@ export function App() {
           onChapterChange={(ch) => {
             sounds.pageTurn();
             setCurrentChapter(ch);
+            readingProgress.setCurrentChapter(currentBook.id, ch);
           }}
           onWordLookup={() => handleXPAction("word_lookup")}
+          onChapterComplete={(bookId, chapterIndex) => {
+            readingProgress.completeChapter(bookId, chapterIndex, currentBook.chapters.length);
+            handleXPAction("chapter_read");
+          }}
+          onQuizPassed={() => handleXPAction("quiz_passed")}
+          isChapterUnlocked={readingProgress.isChapterUnlocked}
+          completedChapters={readingProgress.getProgress(currentBook.id)?.chaptersCompleted ?? []}
           profile={profile}
           recentXPEvent={recentXPEvent}
         />
@@ -237,17 +248,24 @@ export function App() {
             <Library
               onSelectBook={(book) => {
                 sounds.click();
+                const progress = readingProgress.startBook(book.id);
                 setCurrentBook(book);
-                setCurrentChapter(0);
+                setCurrentChapter(progress.currentChapter);
                 navigate("/library");
               }}
+              getProgress={readingProgress.getProgress}
             />
           }
         />
         <Route
           path="/dashboard"
           element={
-            <Dashboard profile={profile} recentXPEvent={recentXPEvent} />
+            <Dashboard
+              profile={profile}
+              recentXPEvent={recentXPEvent}
+              currentBook={readingProgress.getCurrentBook()}
+              allBooks={SAMPLE_BOOKS}
+            />
           }
         />
       </Routes>

@@ -1,17 +1,23 @@
 import { motion } from "framer-motion";
-import { BookOpen, Brain, Flame, Trophy, Swords } from "lucide-react";
+import { BookOpen, Brain, Flame, Trophy, Swords, ChevronRight } from "lucide-react";
 import { XPBar } from "@/components/game/XPBar";
 import { StreakBadge } from "@/components/game/StreakBadge";
-import type { PlayerProfile, XPEvent } from "@/types";
+import type { PlayerProfile, XPEvent, UserProgress, Book } from "@/types";
 import { useVocabulary } from "@/hooks/useVocabulary";
 
 interface DashboardProps {
   profile: PlayerProfile;
   recentXPEvent: XPEvent | null;
+  currentBook: { bookId: string; progress: UserProgress } | null;
+  allBooks: Book[];
 }
 
-export function Dashboard({ profile, recentXPEvent }: DashboardProps) {
+export function Dashboard({ profile, recentXPEvent, currentBook, allBooks }: DashboardProps) {
   const { vocabulary } = useVocabulary();
+
+  const activeBook = currentBook
+    ? allBooks.find((b) => b.id === currentBook.bookId)
+    : null;
 
   const stats = [
     {
@@ -61,6 +67,42 @@ export function Dashboard({ profile, recentXPEvent }: DashboardProps) {
         <XPBar profile={profile} recentEvent={recentXPEvent} />
       </div>
 
+      {/* Current Book */}
+      {activeBook && currentBook && (
+        <motion.div
+          className="bg-card border border-border rounded-xl p-6 mb-8"
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+        >
+          <h2 className="text-lg font-bold mb-4 flex items-center gap-2">
+            <BookOpen className="w-5 h-5 text-blue-500" />
+            Currently Reading
+          </h2>
+          <div className="flex items-center gap-4">
+            <div className="flex-1 min-w-0">
+              <p className="font-semibold truncate">{activeBook.title}</p>
+              <p className="text-sm text-muted-foreground">{activeBook.author}</p>
+              <div className="flex items-center gap-3 mt-2">
+                <div className="flex-1 h-2 bg-muted rounded-full overflow-hidden">
+                  <motion.div
+                    className="h-full bg-primary rounded-full"
+                    initial={{ width: 0 }}
+                    animate={{
+                      width: `${(currentBook.progress.chaptersCompleted.length / activeBook.chapters.length) * 100}%`,
+                    }}
+                    transition={{ duration: 0.8 }}
+                  />
+                </div>
+                <span className="text-xs text-muted-foreground shrink-0">
+                  {currentBook.progress.chaptersCompleted.length}/{activeBook.chapters.length} chapters
+                </span>
+              </div>
+            </div>
+            <ChevronRight className="w-5 h-5 text-muted-foreground shrink-0" />
+          </div>
+        </motion.div>
+      )}
+
       {/* Stats Grid */}
       <div className="grid grid-cols-2 sm:grid-cols-4 gap-4 mb-8">
         {stats.map((stat, i) => (
@@ -106,12 +148,12 @@ export function Dashboard({ profile, recentXPEvent }: DashboardProps) {
         </div>
       )}
 
-      {vocabulary.length === 0 && (
+      {vocabulary.length === 0 && !activeBook && (
         <div className="bg-card border border-border rounded-xl p-8 text-center">
           <Brain className="w-12 h-12 text-muted-foreground/30 mx-auto mb-4" />
           <p className="text-muted-foreground">
-            No words yet. Double-click any word while reading to look it up and
-            add it to your vocabulary.
+            No words yet. Start reading and double-click any word to look it up
+            and add it to your vocabulary.
           </p>
         </div>
       )}

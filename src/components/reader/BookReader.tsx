@@ -5,12 +5,16 @@ import {
   ChevronRight,
   Settings,
   BookOpen,
+  Lock,
+  ScrollText,
 } from "lucide-react";
 import { cn } from "@/lib/utils";
 import type { Book, ReaderSettings } from "@/types";
 import { WordPopup } from "./WordPopup";
 import { SelectionToolbar } from "./SelectionToolbar";
+import { ChapterQuiz } from "../quiz/ChapterQuiz";
 import { XPBar } from "../game/XPBar";
+import { CHAPTER_QUIZZES } from "@/lib/sample-quizzes";
 import type { PlayerProfile, XPEvent } from "@/types";
 
 interface BookReaderProps {
@@ -18,6 +22,10 @@ interface BookReaderProps {
   currentChapter: number;
   onChapterChange: (chapter: number) => void;
   onWordLookup: (word: string) => void;
+  onChapterComplete: (bookId: string, chapterIndex: number) => void;
+  onQuizPassed: () => void;
+  isChapterUnlocked: (bookId: string, chapterIndex: number) => boolean;
+  completedChapters: number[];
   profile: PlayerProfile;
   recentXPEvent: XPEvent | null;
 }
@@ -42,6 +50,10 @@ export function BookReader({
   currentChapter,
   onChapterChange,
   onWordLookup,
+  onChapterComplete,
+  onQuizPassed,
+  isChapterUnlocked,
+  completedChapters,
   profile,
   recentXPEvent,
 }: BookReaderProps) {
@@ -52,6 +64,7 @@ export function BookReader({
     lineHeight: 1.8,
   });
   const [showSettings, setShowSettings] = useState(false);
+  const [showQuiz, setShowQuiz] = useState(false);
   const [wordPopup, setWordPopup] = useState<{
     word: string;
     position: { x: number; y: number };
@@ -63,6 +76,9 @@ export function BookReader({
 
   const contentRef = useRef<HTMLDivElement>(null);
   const chapter = book.chapters[currentChapter];
+  const chapterCompleted = completedChapters.includes(currentChapter);
+  const quizQuestions = chapter ? CHAPTER_QUIZZES[chapter.id] : undefined;
+  const hasQuiz = !!quizQuestions && quizQuestions.length > 0;
 
   const handleDoubleClick = useCallback(
     (e: React.MouseEvent) => {
@@ -258,41 +274,79 @@ export function BookReader({
 
       {/* Navigation */}
       <div className="sticky bottom-0 bg-background/80 backdrop-blur-md border-t border-border px-4 py-3">
-        <div className="max-w-4xl mx-auto flex items-center justify-between">
-          <button
-            onClick={() => onChapterChange(currentChapter - 1)}
-            disabled={currentChapter === 0}
-            className="flex items-center gap-1 px-4 py-2 text-sm font-medium rounded-lg hover:bg-accent disabled:opacity-30 disabled:cursor-not-allowed transition-colors"
-          >
-            <ChevronLeft className="w-4 h-4" />
-            Previous
-          </button>
+        <div className="max-w-4xl mx-auto">
+          {/* Quiz prompt */}
+          {hasQuiz && !chapterCompleted && (
+            <div className="flex justify-center mb-3">
+              <motion.button
+                onClick={() => setShowQuiz(true)}
+                className="flex items-center gap-2 px-6 py-2.5 bg-primary text-primary-foreground rounded-lg font-semibold text-sm shadow-lg shadow-primary/25"
+                whileHover={{ scale: 1.05 }}
+                whileTap={{ scale: 0.95 }}
+              >
+                <ScrollText className="w-4 h-4" />
+                Take Chapter Quiz to Continue
+              </motion.button>
+            </div>
+          )}
 
-          <div className="flex items-center gap-2">
-            {book.chapters.map((_, i) => (
-              <button
-                key={i}
-                onClick={() => onChapterChange(i)}
-                className={cn(
-                  "w-2.5 h-2.5 rounded-full transition-colors",
-                  i === currentChapter
-                    ? "bg-primary"
-                    : i < currentChapter
-                      ? "bg-primary/40"
-                      : "bg-muted-foreground/30",
-                )}
-              />
-            ))}
+          <div className="flex items-center justify-between">
+            <button
+              onClick={() => onChapterChange(currentChapter - 1)}
+              disabled={currentChapter === 0}
+              className="flex items-center gap-1 px-4 py-2 text-sm font-medium rounded-lg hover:bg-accent disabled:opacity-30 disabled:cursor-not-allowed transition-colors"
+            >
+              <ChevronLeft className="w-4 h-4" />
+              Previous
+            </button>
+
+            <div className="flex items-center gap-2">
+              {book.chapters.map((_, i) => {
+                const unlocked = isChapterUnlocked(book.id, i);
+                const completed = completedChapters.includes(i);
+                return (
+                  <button
+                    key={i}
+                    onClick={() => unlocked && onChapterChange(i)}
+                    disabled={!unlocked}
+                    className={cn(
+                      "w-3 h-3 rounded-full transition-all relative",
+                      i === currentChapter
+                        ? "bg-primary ring-2 ring-primary/30"
+                        : completed
+                          ? "bg-green-500"
+                          : unlocked
+                            ? "bg-muted-foreground/40 hover:bg-muted-foreground/60"
+                            : "bg-muted-foreground/20",
+                    )}
+                    title={
+                      !unlocked
+                        ? "Pass the previous quiz to unlock"
+                        : completed
+                          ? "Completed"
+                          : `Chapter ${i + 1}`
+                    }
+                  >
+                    {!unlocked && (
+                      <Lock className="w-2 h-2 absolute -top-0.5 -right-0.5 text-muted-foreground" />
+                    )}
+                  </button>
+                );
+              })}
+            </div>
+
+            <button
+              onClick={() => onChapterChange(currentChapter + 1)}
+              disabled={
+                currentChapter >= book.chapters.length - 1 ||
+                (hasQuiz && !chapterCompleted && !isChapterUnlocked(book.id, currentChapter + 1))
+              }
+              className="flex items-center gap-1 px-4 py-2 text-sm font-medium rounded-lg hover:bg-accent disabled:opacity-30 disabled:cursor-not-allowed transition-colors"
+            >
+              Next
+              <ChevronRight className="w-4 h-4" />
+            </button>
           </div>
-
-          <button
-            onClick={() => onChapterChange(currentChapter + 1)}
-            disabled={currentChapter >= book.chapters.length - 1}
-            className="flex items-center gap-1 px-4 py-2 text-sm font-medium rounded-lg hover:bg-accent disabled:opacity-30 disabled:cursor-not-allowed transition-colors"
-          >
-            Next
-            <ChevronRight className="w-4 h-4" />
-          </button>
         </div>
       </div>
 
@@ -347,6 +401,22 @@ export function BookReader({
           />
         )}
       </AnimatePresence>
+
+      {/* Quiz overlay */}
+      {showQuiz && quizQuestions && (
+        <ChapterQuiz
+          chapterTitle={chapter?.title ?? ""}
+          questions={quizQuestions}
+          onComplete={(_score, _total, passed) => {
+            setShowQuiz(false);
+            if (passed) {
+              onChapterComplete(book.id, currentChapter);
+              onQuizPassed();
+            }
+          }}
+          onClose={() => setShowQuiz(false)}
+        />
+      )}
     </div>
   );
 }

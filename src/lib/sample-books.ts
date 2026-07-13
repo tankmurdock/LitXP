@@ -87,7 +87,36 @@ export const SAMPLE_BOOKS: Book[] = [
         content: `<p class="mb-4">In my younger and more vulnerable years my father gave me some advice that I've been turning over in my mind ever since.</p>
 <p class="mb-4">"Whenever you feel like criticizing anyone," he told me, "just remember that all the people in this world haven't had the advantages that you've had."</p>
 <p class="mb-4">He didn't say any more, but we've always been unusually communicative in a reserved way, and I understood that he meant a great deal more than that. In consequence, I'm inclined to reserve all judgments, a habit that has opened up many curious natures to me and also made me the victim of not a few veteran bores.</p>
-<p class="mb-4">And, after boasting this way of my tolerance, I come to the admission that it has a limit. Conduct may be founded on the hard rock or the wet marshes, but after a certain point I don't care what it's founded on. When I came back from the East last autumn I felt that I wanted the world to be in uniform and at a sort of moral attention forever; I wanted no more riotous excursions with privileged glimpses into the human heart.</p>`,
+<p class="mb-4">And, after boasting this way of my tolerance, I come to the admission that it has a limit. Conduct may be founded on the hard rock or the wet marshes, but after a certain point I don't care what it's founded on. When I came back from the East last autumn I felt that I wanted the world to be in uniform and at a sort of moral attention forever; I wanted no more riotous excursions with privileged glimpses into the human heart.</p>
+<p class="mb-4">My family have been prominent, well-to-do people in this Middle Western city for three generations. The Carraways are something of a clan, and we have a tradition that we're descended from the Dukes of Buccleuch, but the actual founder of my line was my grandfather's brother, who came here in fifty-one, sent a substitute to the Civil War, and started the wholesale hardware business that my father carries on to-day.</p>
+<p class="mb-4">I graduated from New Haven in 1915, just a quarter of a century after my father, and a little later I participated in that delayed Teutonic migration known as the Great War. I enjoyed the counter-raid so thoroughly that I came back restless. Instead of being the warm centre of the world, the Middle West now seemed like the ragged edge of the universe\u2014so I decided to go East and learn the bond business.</p>
+<p class="mb-4">And so it happened that on a warm windy evening I drove over to East Egg to see two old friends whom I scarcely knew at all. Their house was even more elaborate than I expected, a cheerful red-and-white Georgian Colonial mansion, overlooking the bay.</p>`,
+      },
+      {
+        id: "gg-ch2",
+        bookId: "the-great-gatsby",
+        number: 2,
+        title: "Chapter 2",
+        wordCount: 5800,
+        content: `<p class="mb-4">About half way between West Egg and New York the motor road hastily joins the railroad and runs beside it for a quarter of a mile, so as to shrink away from a certain desolate area of land. This is a valley of ashes\u2014a fantastic farm where ashes grow like wheat into ridges and hills and grotesque gardens; where ashes take the forms of houses and chimneys and rising smoke and, finally, with a transcendent effort, of men who move dimly and already crumbling through the powdery air.</p>
+<p class="mb-4">Occasionally a line of gray cars crawls along an invisible track, gives out a ghastly creak, and comes to rest, and immediately the ash-gray men swarm up with leaden spades and stir up an impenetrable cloud, which screens their obscure operations from your sight.</p>
+<p class="mb-4">But above the gray land and the spasms of bleak dust which drift endlessly over it, you perceive, after a moment, the eyes of Doctor T. J. Eckleburg. The eyes of Doctor T. J. Eckleburg are blue and gigantic\u2014their retinas are one yard high. They look out of no face, but, instead, from a pair of enormous yellow spectacles which pass over a nonexistent nose. Evidently some wild wag of an oculist set them there to fatten his practice in the borough of Queens, and then sank down himself into eternal blindness, or forgot them and moved away. But his eyes, dimmed a little by many paintless days, under sun and rain, brood on over the solemn dumping ground.</p>
+<p class="mb-4">The valley of ashes is bounded on one side by a small foul river, and, when the drawbridge is up to let barges through, the passengers on waiting trains can stare at the dismal scene for as long as half an hour.</p>
+<p class="mb-4">"Terrible place, isn't it," said Tom, exchanging a frown with Doctor Eckleburg.</p>
+<p class="mb-4">We went on, passing through the Valley of Ashes. I had been brought there by Tom Buchanan for the express purpose of meeting his mistress. The fact that he had one was insisted upon wherever he was known. His acquaintances resented the fact that he turned up in popular restaurants with her and, leaving her at a table, sauntered about, chatting with whomsoever he knew.</p>`,
+      },
+      {
+        id: "gg-ch3",
+        bookId: "the-great-gatsby",
+        number: 3,
+        title: "Chapter 3",
+        wordCount: 6100,
+        content: `<p class="mb-4">There was music from my neighbor's house through the summer nights. In his blue gardens men and girls came and went like moths among the whisperings and the champagne and the stars. At high tide in the afternoon I watched his guests diving from the tower of his raft, or taking the sun on the hot sand of his beach while his two motor-boats slit the waters of the Sound, drawing aquaplanes over cataracts of foam.</p>
+<p class="mb-4">On week-ends his Rolls-Royce became an omnibus, bearing parties to and from the city between nine in the morning and long past midnight, while his station wagon scampered like a brisk yellow bug to meet all trains. And on Mondays eight servants, including an extra gardener, toiled all day with mops and scrubbing-brushes and hammers and garden-shears, repairing the ravages of the night before.</p>
+<p class="mb-4">Every Friday five crates of oranges and lemons arrived from a fruiterer in New York\u2014every Monday these same oranges and lemons left his back door in a pyramid of pulpless halves. There was a machine in the kitchen which could extract the juice of two hundred oranges in half an hour if a little button was pressed two hundred times by a butler's thumb.</p>
+<p class="mb-4">At least once a fortnight a corps of caterers came down with several hundred feet of canvas and enough colored lights to make a Christmas tree of Gatsby's enormous garden. On buffet tables, garnished with glistening hors-d'oeuvre, spiced baked hams crowded against salads of harlequin designs and pastry pigs and turkeys bewitched to a dark gold.</p>
+<p class="mb-4">I believe that on the first night I went to Gatsby's house I was one of the few guests who had actually been invited. People were not invited\u2014they went there. They got into automobiles which bore them out to Long Island, and somehow they ended up at Gatsby's door.</p>
+<p class="mb-4">In my first impression of him, he seemed to be reaching for something just beyond his grasp, straining for a dream that always eluded him. When I finally met him, I found a young man of extraordinary quality\u2014with one of those rare smiles that seemed to understand you, as if it believed in you as you would like to believe in yourself.</p>`,
       },
     ],
   },
